@@ -10,12 +10,12 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [
+        ElementPlusResolver()
+      ],
     }),
     Components({
-      resolvers: [
-        ElementPlusResolver({ importStyle: "sass" })
-      ],
+      resolvers: [ElementPlusResolver({ importStyle: "sass" })],
     }),
     // 按需定制主题配置
     ElementPlus({
