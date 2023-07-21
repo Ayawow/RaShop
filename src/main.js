@@ -3,11 +3,7 @@ import './styles/common.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-//测试接口函数
-import { getCategoryAPI } from '@/apis/testAPI'
-getCategoryAPI().then(res => {
-    console.log(res)
-})
+
 
 import App from './App.vue'
 import router from './router'
