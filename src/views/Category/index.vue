@@ -1,22 +1,27 @@
 <script setup>
     import { getTopCategoryAPI } from '@/apis/category'
     import { ref, onUpdated, onMounted } from 'vue'
-    import { useRoute } from 'vue-router'
+    import { useRoute, onBeforeRouteUpdate } from 'vue-router'
     import { getBannerAPI } from '@/apis/home'
     import GoodsItem from '../Home/components/GoodsItem.vue'
 
     const categoryData = ref({})
     const route = useRoute()
-    const getCategory = async (id) => {
+    const getCategory = async (id = route.params.id) => {
         // 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route
-        const res = await getTopCategoryAPI(route.params.id)
+        const res = await getTopCategoryAPI(id)
         categoryData.value = res.result
 
     }
+    onMounted(() => getCategory())
+
+    onBeforeRouteUpdate((to) => {
+        // 存在问题：使用最新的路由参数请求最新的分类数据
+        getCategory(to.params.id)
+
+    })
 
 
-
-    onUpdated(() => getCategory())
 
 
 
