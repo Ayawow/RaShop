@@ -1,10 +1,9 @@
 <script setup>
     import DetailHot from './components/DetailHot.vue'
-    import ImageView from '@/components/ImageView/index.vue'
     import { getDetail } from '@/apis/detail'
     import { onMounted, ref } from 'vue'
     import { useRoute } from 'vue-router'
-    import XtxSku from '@/components/XtxSku/index.vue'
+
 
     const goods = ref({})
     const route = useRoute()
