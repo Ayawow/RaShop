@@ -17,5 +17,6 @@ export const useUserStore = defineStore('user', () => {
         getUserInfo
     }
 }, {
-    persist: true,
+    persist: true
+
 })
