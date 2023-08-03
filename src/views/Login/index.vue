@@ -1,11 +1,19 @@
 <script setup>
 
     import { ref } from 'vue'
+    import { loginAPI } from '@/apis/user'
+    import { ElMessage } from 'element-plus'
+    import 'element-plus/theme-chalk/el-message.css'
+    import { useRouter } from 'vue-router'
 
+    import { useUserStore } from '@/stores/user'
+
+    const userStore = useUserStore()
     //表单对象
     const form = ref({
         account: '',
-        password: ''
+        password: '',
+        agree: true
     })
 
     //规则对象
@@ -33,16 +41,25 @@
     }
 
     //统一校验
+    const router = useRouter()
     const formRef = ref(null)
-    const dologin = () => {
-        formRef.value.validate((valid) => {
+    const doLogin = () => {
+        const { account, password } = form.value
+        // 调用实例方法
+        formRef.value.validate(async (valid) => {
+            // valid: 所有表单都通过校验  才为true
+            console.log(valid)
+            // 以valid做为判断条件 如果通过校验才执行登录逻辑
             if (valid) {
-                //ToDo login
+                // TODO LOGIN
+                await userStore.getUserInfo({ account, password })
+                // 1. 提示用户
+                ElMessage({ type: 'success', message: '登录成功' })
+                // 2. 跳转首页
+                router.replace({ path: '/' })
             }
         })
-
     }
-
 </script>
 
 
@@ -80,7 +97,7 @@
                                     我已同意隐私条款和服务条款
                                 </el-checkbox>
                             </el-form-item>
-                            <el-button size="large" class="subBtn" @click="dologin">点击登录</el-button>
+                            <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
                         </el-form>
                     </div>
                 </div>
