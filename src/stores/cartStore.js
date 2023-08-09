@@ -39,15 +39,21 @@ export const useCartStore = defineStore('cart', () => {
         // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到，找到了就是添加过
 
     }
-
+    //获取购物车
+    const updateNewList = async () => {
+        const res = await findNewCartListAPI()
+        cartList.value = res.result
+    }
 
     // 删除购物车
     const delCart = async (skuId) => {
         if (isLogin.value) {
             // 调用接口实现接口购物车中的删除功能
             await delCartAPI([skuId])
-            const res = findNewCartListAPI()
+
+            const res = await findNewCartListAPI()
             cartList.value = res.result
+
         } else {
             // 思路：
             // 1. 找到要删除项的下标值 - splice
@@ -83,7 +89,14 @@ export const useCartStore = defineStore('cart', () => {
     // 4. 已选择商品价钱合计
     const selectedPrice = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count * c.price, 0))
 
+    //清空购物车
+    const clearCart = () => {
+        cartList.value = []
+    }
+
     return {
+        updateNewList,
+        clearCart,
         cartList,
         addCart,
         delCart,
